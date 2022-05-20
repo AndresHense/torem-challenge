@@ -13,21 +13,16 @@ import {
   VStack,
 } from '@chakra-ui/react';
 import React from 'react';
+import Hero from '../components/Hero';
 
 const RegisterScreen = () => {
   return (
-    <Grid templateColumns='repeat(2,1fr)' gap={0} flex='1'>
-      <GridItem
-        bgImage='BACKGROUND.jpg'
-        filter='opacity(0.9) grayscale(50%)'
-        display='flex'
-        alignItems='center'
-        justifyContent='center'
-        bgPosition='center'
-        backgroundSize='cover'
-      >
-        <Image src='CHATTER_WHITE_TR.png' w='60%' />
-      </GridItem>
+    <Grid
+      templateColumns={{ base: '1fr', lg: 'repeat(2,1fr)' }}
+      gap={0}
+      flex='1'
+    >
+      <Hero />
       <GridItem bg='green.500' display='flex'>
         <VStack
           justifyContent='center'

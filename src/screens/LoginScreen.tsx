@@ -13,15 +13,20 @@ import React from 'react';
 
 const LoginScreen = () => {
   return (
-    <Grid templateColumns='repeat(2,1fr)' gap={0} flex='1'>
+    <Grid
+      templateColumns={{ base: '1fr', lg: 'repeat(2,1fr)' }}
+      gap={0}
+      flex='1'
+    >
       <GridItem
-        bgImage='BACKGROUND.jpg'
-        filter='opacity(0.9) grayscale(50%)'
         display='flex'
         alignItems='center'
         justifyContent='center'
+        bgImage='BACKGROUND.jpg'
         bgPosition='center'
-        backgroundSize='cover'
+        bgSize='200%'
+        filter='opacity(0.9) grayscale(80%) '
+        h={{ base: '100vh', lg: 'inherit' }}
       >
         <Image src='CHATTER_WHITE_TR.png' w='60%' />
       </GridItem>

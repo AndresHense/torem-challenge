@@ -13,21 +13,25 @@ import { RiWechatLine } from 'react-icons/ri';
 import { Route, Routes } from 'react-router-dom';
 import Footer from './components/Footer';
 import Header from './components/Header';
-import ChatScreen from './screens/ChatScreen';
+import ChatScreen from './screens/Chat/ChatScreen';
 import LoginScreen from './screens/LoginScreen';
 import RegisterScreen from './screens/RegisterScreen';
 
 function App() {
   return (
     <Flex direction='column' h='100vh'>
-      <Header />
+      <Flex maxH='sm'>
+        <Header />
+      </Flex>
       <Routes>
         <Route path='/' element={<LoginScreen />} />
         <Route path='/login' element={<LoginScreen />} />
         <Route path='/register' element={<RegisterScreen />} />
         <Route path='/chat' element={<ChatScreen />} />
       </Routes>
-      <Footer />
+      <Flex maxH='sm'>
+        <Footer />
+      </Flex>
     </Flex>
   );
 }
