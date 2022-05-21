@@ -1,15 +1,4 @@
-import {
-  Button,
-  Flex,
-  Grid,
-  GridItem,
-  HStack,
-  Icon,
-  Input,
-  Text,
-} from '@chakra-ui/react';
-import { useState } from 'react';
-import { RiWechatLine } from 'react-icons/ri';
+import { Flex } from '@chakra-ui/react';
 import { Route, Routes } from 'react-router-dom';
 import Footer from './components/Footer';
 import Header from './components/Header';

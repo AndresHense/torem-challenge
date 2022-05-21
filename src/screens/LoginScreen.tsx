@@ -4,77 +4,108 @@ import {
   Grid,
   GridItem,
   HStack,
-  Image,
   Input,
+  Link,
   Text,
   VStack,
 } from '@chakra-ui/react';
-import React from 'react';
+import axios from 'axios';
+import React, { useState } from 'react';
+import { Link as ReactLink } from 'react-router-dom';
+import Hero from '../components/Hero';
 
 const LoginScreen = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const submitHandler = (e: any) => {
+    e.preventDefault();
+    const login = async () => {
+      try {
+        const config = {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        };
+        const response = await axios.post(
+          'http://localhost:8080/user/login',
+          {
+            email,
+            password,
+          },
+          config
+        );
+        console.log(response);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    login();
+  };
+
   return (
     <Grid
       templateColumns={{ base: '1fr', lg: 'repeat(2,1fr)' }}
       gap={0}
       flex='1'
     >
-      <GridItem
-        display='flex'
-        alignItems='center'
-        justifyContent='center'
-        bgImage='BACKGROUND.jpg'
-        bgPosition='center'
-        bgSize='200%'
-        filter='opacity(0.9) grayscale(80%) '
-        h={{ base: '100vh', lg: 'inherit' }}
-      >
-        <Image src='CHATTER_WHITE_TR.png' w='60%' />
-      </GridItem>
+      <Hero />
       <GridItem bg='green.500' display='flex'>
-        <VStack alignItems='start' px={32} w='100%' spacing={10} pt={48}>
-          <Box w='100%'>
-            <Text textStyle='h2'>E-MAIL</Text>
-            <Input
-              placeholder='Ingresa tu correo electronico'
+        <form onSubmit={submitHandler}>
+          <VStack alignItems='start' px={32} w='100%' spacing={10} pt={48}>
+            <Box w='100%'>
+              <Text textStyle='h2'>E-MAIL</Text>
+              <Input
+                placeholder='Ingresa tu correo electronico'
+                color='white'
+                _placeholder={{ color: 'white' }}
+                variant='flushed'
+                fontSize='lg'
+                value={email}
+                type='email'
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </Box>
+            <Box w='100%'>
+              <Text textStyle='h2'>CONTRASEÑA</Text>
+              <Input
+                placeholder='Ingresa tu contraseña'
+                variant='flushed'
+                _placeholder={{ color: 'white' }}
+                color='white'
+                fontSize='lg'
+                value={password}
+                type='password'
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </Box>
+            <Button
+              borderRadius={999}
+              type='submit'
+              bg='#083045'
+              _hover={{ bg: '#e8e8e8', color: 'black' }}
               color='white'
-              _placeholder={{ color: 'white' }}
-              variant='flushed'
-              fontSize='lg'
-            />
-          </Box>
-          <Box w='100%'>
-            <Text textStyle='h2'>CONTRASEÑA</Text>
-            <Input
-              placeholder='Ingresa tu contraseña'
-              variant='flushed'
-              _placeholder={{ color: 'white' }}
-              color='white'
-              fontSize='lg'
-            />
-          </Box>
-          <Button
-            borderRadius={999}
-            bg='#083045'
-            _hover={{ bg: '#e8e8e8', color: 'black' }}
-            color='white'
-            size='lg'
-            marginX='2rem'
-            w='170px'
-          >
-            Ingresar
-          </Button>
-          <HStack>
-            <Text textStyle='h3'>¿Ya tienes una cuenta?</Text>
-            <Text
-              as='button'
-              textStyle='h3'
-              _hover={{ color: 'black' }}
-              fontStyle='italic'
+              size='lg'
+              marginX='2rem'
+              w='170px'
             >
-              inicia sesion aquí
-            </Text>
-          </HStack>
-        </VStack>
+              Ingresar
+            </Button>
+            <HStack>
+              <Text textStyle='h3'>¿No tienes una cuenta?</Text>
+              <Link
+                as={ReactLink}
+                to='/register'
+                color='white'
+                fontSize='lg'
+                _hover={{ color: 'black' }}
+                fontStyle='italic'
+              >
+                Crea una nueva cuenta aqui
+              </Link>
+            </HStack>
+          </VStack>
+        </form>
       </GridItem>
     </Grid>
   );

@@ -1,20 +1,5 @@
-import {
-  Avatar,
-  Box,
-  Flex,
-  HStack,
-  Icon,
-  IconButton,
-  Input,
-  List,
-  ListItem,
-  Text,
-  VStack,
-} from '@chakra-ui/react';
+import { Flex, HStack } from '@chakra-ui/react';
 import React from 'react';
-import ChatBox from './ChatBox';
-import { FiPaperclip, FiSend } from 'react-icons/fi';
-import { VscSmiley } from 'react-icons/vsc';
 import ChatSidebar from './ChatSidebar';
 import Chat from './Chat';
 

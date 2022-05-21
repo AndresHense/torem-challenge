@@ -1,13 +1,10 @@
 import {
   Avatar,
   Badge,
-  Box,
   Flex,
   HStack,
   IconButton,
   Input,
-  Tag,
-  TagLabel,
   Text,
   VStack,
 } from '@chakra-ui/react';
