@@ -1,5 +1,8 @@
 import axios from 'axios';
 import {
+  CHAT_DELETE_FAIL,
+  CHAT_DELETE_REQUEST,
+  CHAT_DELETE_SUCCESS,
   CHAT_SELECT_FAIL,
   CHAT_SELECT_REQUEST,
   CHAT_SELECT_SUCCESS,
@@ -55,3 +58,28 @@ export const sendMsg =
       });
     }
   };
+
+export const deleteMsg = (chatId: string) => async (dispatch, getState) => {
+  try {
+    dispatch({ type: CHAT_DELETE_REQUEST });
+    const {
+      userLogin: { token, userId },
+    } = getState();
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    axios.delete(`http://localhost:8080/chat/${userId}/${chatId}/`, config);
+    dispatch({ type: CHAT_DELETE_SUCCESS });
+  } catch (error) {
+    const message =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message;
+    dispatch({
+      type: CHAT_DELETE_FAIL,
+      payload: message,
+    });
+  }
+};

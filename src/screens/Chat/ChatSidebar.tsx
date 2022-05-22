@@ -79,7 +79,7 @@ const ChatSidebar = ({ userImage, chats, userId }: Props) => {
         </InputGroup>
       </Box>
       <Box alignItems='flex-start' py={4} w='full' overflowY='auto'>
-        <List w='full' spacing={6}>
+        <List w='full' spacing={2}>
           {chats.map(({ name, image, messages, chatId }, index) => (
             <ListItem key={index}>
               <ChatBox
@@ -104,19 +104,19 @@ const ChatSidebar = ({ userImage, chats, userId }: Props) => {
         <AlertDialogOverlay>
           <AlertDialogContent>
             <AlertDialogHeader fontSize='lg' fontWeight='bold'>
-              Delete Customer
+              Borrar Cuenta
             </AlertDialogHeader>
 
             <AlertDialogBody>
-              Are you sure? You can't undo this action afterwards.
+              Estas de acuerdo? Esta acción no se puede deshacer.
             </AlertDialogBody>
 
             <AlertDialogFooter>
               <Button ref={cancelRef} onClick={onClose}>
-                Cancel
+                Cancelar
               </Button>
               <Button colorScheme='red' onClick={deleteUser} ml={3}>
-                Delete
+                Borrar
               </Button>
             </AlertDialogFooter>
           </AlertDialogContent>

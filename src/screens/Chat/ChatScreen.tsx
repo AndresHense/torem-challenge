@@ -18,9 +18,12 @@ const ChatScreen = () => {
   const userLogin = useSelector((state) => state.userLogin);
   const { userId } = userLogin;
 
+  const chatDelete = useSelector((state) => state.chatDelete);
+  const { success } = chatDelete;
+
   useEffect(() => {
     dispatch(getUserDetails(userId));
-  }, [dispatch, userId]);
+  }, [dispatch, userId, success]);
 
   return (
     <HStack h='86vh' spacing={0}>

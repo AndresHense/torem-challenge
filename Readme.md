@@ -14,11 +14,11 @@ No se pueden crear chats nuevos desde el frontend, usar una herramienta como pos
 
 ## Todo List:
 
-* style input button in register screen
-* integrate with socket.io
-* add graphql filter
-* add delete chat button
-* ~~add chat selection funtionality~~
-* add svg to footer
-* add mobile version
-* ~~refactorize and rename functions in chatBox.tsx~~
+* *style input button in register screen*
+* *integrate with socket.io*
+* *add graphql filter*
+* ~~*add delete chat button*~~
+* ~~*add chat selection funtionality*~~
+* *add svg to footer*
+* *add mobile version*
+* ~~*refactorize and rename functions in chatBox.tsx*~~

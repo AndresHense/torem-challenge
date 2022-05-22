@@ -20,6 +20,19 @@ export const chatSendReducer = (state = {}, action: any) => {
   }
 };
 
+export const chatDeleteReducer = (state = {}, action: any) => {
+  switch (action.type) {
+    case CHAT_SEND_REQUEST:
+      return { ...state, loading: true };
+    case CHAT_SEND_SUCCESS:
+      return { loading: false, success: true };
+    case CHAT_SEND_FAIL:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
+
 export const chatSelectReducer = (state = {}, action: any) => {
   switch (action.type) {
     case CHAT_SELECT_REQUEST:
