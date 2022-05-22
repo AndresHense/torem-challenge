@@ -18,7 +18,7 @@ No se pueden crear chats nuevos desde el frontend, usar una herramienta como pos
 * integrate with socket.io
 * add graphql filter
 * add delete chat button
-* add chat selection funtionality
+* ~~add chat selection funtionality~~
 * add svg to footer
 * add mobile version
-* refactorize and rename functions in chatBox.tsx
+* ~~refactorize and rename functions in chatBox.tsx~~

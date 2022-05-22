@@ -32,11 +32,7 @@ const ChatScreen = () => {
         />
       )}
       <Flex as='main' flex={1} h='full' direction='column'>
-        {!loading && (
-          <Chat
-            chat={user?.chats.length > 0 ? user.chats[0] : { messages: [] }}
-          />
-        )}
+        {!loading && <Chat />}
       </Flex>
     </HStack>
   );

@@ -80,11 +80,12 @@ const ChatSidebar = ({ userImage, chats, userId }: Props) => {
       </Box>
       <Box alignItems='flex-start' py={4} w='full' overflowY='auto'>
         <List w='full' spacing={6}>
-          {chats.map(({ name, image, messages }, index) => (
+          {chats.map(({ name, image, messages, chatId }, index) => (
             <ListItem key={index}>
               <ChatBox
                 name={name}
                 image={image}
+                chatId={chatId}
                 lastMessage={
                   messages.length > 0
                     ? messages[messages.length - 1]?.message

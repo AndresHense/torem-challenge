@@ -10,9 +10,10 @@ import {
 } from '@chakra-ui/react';
 import axios from 'axios';
 import React, { useState } from 'react';
+import { useEffect } from 'react';
 import { FiPaperclip, FiSend } from 'react-icons/fi';
 import { VscSmiley } from 'react-icons/vsc';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { sendMsg } from '../../actions/chatActions';
 import { sanitizeImage } from './aux';
 import ChatBubble from './ChatBubble';
@@ -22,15 +23,19 @@ type Props = {
   chat: ChatType;
 };
 
-const Chat = ({ chat }: Props) => {
+const Chat = () => {
   const [message, setMessage] = useState('');
   const dispatch = useDispatch();
+
+  const chatSelect = useSelector((state) => state.chatSelect);
+  const { chat, loading, error } = chatSelect;
 
   const sendMessage = () => {
     dispatch(sendMsg(message, chat?.chatId));
     setMessage('');
   };
 
+  if (loading) return <Text>loading</Text>;
   return (
     <Flex direction='column' h='full'>
       <HStack w='full' bg='#e8e8e8' justify='space-between' px={8}>

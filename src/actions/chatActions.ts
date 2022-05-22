@@ -1,9 +1,29 @@
 import axios from 'axios';
 import {
+  CHAT_SELECT_FAIL,
+  CHAT_SELECT_REQUEST,
+  CHAT_SELECT_SUCCESS,
   CHAT_SEND_FAIL,
   CHAT_SEND_REQUEST,
   CHAT_SEND_SUCCESS,
 } from '../constants/chatConstants';
+
+export const selectMsg = (chatId) => (dispatch, getState) => {
+  dispatch({ type: CHAT_SELECT_REQUEST });
+  const {
+    userDetails: {
+      user: { chats },
+    },
+  } = getState();
+
+  const chat = chats.find((chat) => chatId === chat.chatId);
+
+  if (chat) {
+    dispatch({ type: CHAT_SELECT_SUCCESS, payload: chat });
+  } else {
+    dispatch({ type: CHAT_SELECT_FAIL, payload: 'Chat not found' });
+  }
+};
 
 export const sendMsg =
   (message: string, chatId: string) => async (dispatch, getState) => {

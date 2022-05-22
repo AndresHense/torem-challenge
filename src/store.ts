@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { getUserInfo, getToken } from './localStorage/storage';
-import { chatSendReducer } from './reducers/chatReducers';
+import { chatSelectReducer, chatSendReducer } from './reducers/chatReducers';
 import {
   userDetailsReducer,
   userLoginReducer,
@@ -18,6 +18,7 @@ export default configureStore({
     userRegister: userRegisterReducer,
     userDetails: userDetailsReducer,
     chatSend: chatSendReducer,
+    chatSelect: chatSelectReducer,
   },
   preloadedState: {
     userLogin: {
@@ -27,6 +28,9 @@ export default configureStore({
     userDetails: {
       user: {},
       loading: true,
+    },
+    chatSelect: {
+      chat: { messages: [] },
     },
   },
 });

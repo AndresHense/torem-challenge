@@ -10,33 +10,31 @@ import {
 import React, { useState } from 'react';
 import { BsCheck2All } from 'react-icons/bs';
 import { HiDotsVertical } from 'react-icons/hi';
+import { useDispatch } from 'react-redux';
+import { selectMsg } from '../../actions/chatActions';
 import { sanitizeImage } from './aux';
 
 type Props = {
   name: string;
   image: string;
   lastMessage: string;
+  chatId: string;
 };
 
-const ChatBox = ({ name, image, lastMessage }: Props) => {
+const ChatBox = ({ name, image, lastMessage, chatId }: Props) => {
   const [textColor, setTextColor] = useState('gray.600');
   const [chatBgColor, setChatBgColor] = useState('#e8e8e8');
   const [showDots, setShowDots] = useState(false);
+  const dispatch = useDispatch();
 
-  const clickChange = () => {
+  const handleFocus = () => {
     setTextColor('white');
     setChatBgColor('green.500');
+    dispatch(selectMsg(chatId));
   };
-  const clickChange2 = () => {
+  const handleBlur = () => {
     setTextColor('gray.600');
     setChatBgColor('#e8e8e8');
-  };
-
-  const clickChange3 = () => {
-    setShowDots(true);
-  };
-  const clickChange4 = () => {
-    setShowDots(false);
   };
 
   return (
@@ -46,15 +44,19 @@ const ChatBox = ({ name, image, lastMessage }: Props) => {
       w='100%'
       h='100%'
       bg={chatBgColor}
-      onMouseEnter={clickChange3}
-      onMouseLeave={clickChange4}
+      onMouseEnter={() => {
+        setShowDots(true);
+      }}
+      onMouseLeave={() => {
+        setShowDots(false);
+      }}
     >
       <Button
         variant='unstyled'
         w='100%'
         h='100%'
-        onFocus={clickChange}
-        onBlur={clickChange2}
+        onFocus={handleFocus}
+        onBlur={handleBlur}
         _focus={{ border: 'none' }}
       >
         <HStack>
