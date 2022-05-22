@@ -10,8 +10,15 @@ import {
 import React, { useState } from 'react';
 import { BsCheck2All } from 'react-icons/bs';
 import { HiDotsVertical } from 'react-icons/hi';
+import { sanitizeImage } from './aux';
 
-const ChatBox = () => {
+type Props = {
+  name: string;
+  image: string;
+  lastMessage: string;
+};
+
+const ChatBox = ({ name, image, lastMessage }: Props) => {
   const [textColor, setTextColor] = useState('gray.600');
   const [chatBgColor, setChatBgColor] = useState('#e8e8e8');
   const [showDots, setShowDots] = useState(false);
@@ -31,6 +38,7 @@ const ChatBox = () => {
   const clickChange4 = () => {
     setShowDots(false);
   };
+
   return (
     <HStack
       justify='space-between'
@@ -50,9 +58,9 @@ const ChatBox = () => {
         _focus={{ border: 'none' }}
       >
         <HStack>
-          <Avatar />
+          <Avatar src={`http://localhost:8080/${sanitizeImage(image)}`} />
           <VStack alignItems='flex-start' overflow='hidden'>
-            <Text fontWeight='bold'>Maria Lopez</Text>
+            <Text fontWeight='bold'>{name}</Text>
             <HStack>
               <Icon color='#36dd81' fontSize='xl' as={BsCheck2All} />
               <Text
@@ -60,9 +68,9 @@ const ChatBox = () => {
                 overflow='hidden'
                 textOverflow='ellipsis'
                 whiteSpace='nowrap'
-                w='60%'
+                w='330px'
               >
-                Si, me gusta la albomndiga con aceituna y rellenodas de acelga
+                {lastMessage}
               </Text>
             </HStack>
           </VStack>

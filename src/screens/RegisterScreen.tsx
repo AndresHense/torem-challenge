@@ -11,11 +11,32 @@ import {
   VStack,
 } from '@chakra-ui/react';
 import axios from 'axios';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Hero from '../components/Hero';
-import { Link as ReactLink } from 'react-router-dom';
+import { Link as ReactLink, useNavigate } from 'react-router-dom';
+import { UserData } from './Chat/types';
+import { useDispatch, useSelector } from 'react-redux';
 
 const RegisterScreen = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userId, loading, error } = userLogin;
+
+  const userRegister = useSelector((state) => state.userRegister);
+  const {
+    success,
+    loading: loadingRegister,
+    error: errorRegister,
+  } = userRegister;
+
+  useEffect(() => {
+    if (userId) {
+      navigate('/chat');
+    }
+  });
+
   const [name, setName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
@@ -28,30 +49,8 @@ const RegisterScreen = () => {
       return;
     }
     e.preventDefault();
-    const register = async () => {
-      try {
-        const config = {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-        };
-        const formData = new FormData();
-        formData.append('name', name);
-        formData.append('lastName', lastName);
-        formData.append('email', email);
-        formData.append('password', password);
-        formData.append('image', file);
-        const response = await axios.post(
-          'http://localhost:8080/user/create',
-          formData,
-          config
-        );
-        console.log(response);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    register();
+
+    dispatch(register({ name, lastName, email, password, file }));
   };
 
   return (

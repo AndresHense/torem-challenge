@@ -10,37 +10,31 @@ import {
   VStack,
 } from '@chakra-ui/react';
 import axios from 'axios';
-import React, { useState } from 'react';
-import { Link as ReactLink } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link as ReactLink, useNavigate } from 'react-router-dom';
+import { login } from '../actions/userActions';
 import Hero from '../components/Hero';
 
 const LoginScreen = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userId, loading, error } = userLogin;
+
+  useEffect(() => {
+    console.log('userId', userId);
+    if (userId) {
+      navigate('/chat');
+    }
+  }, [userId]);
 
   const submitHandler = (e: any) => {
     e.preventDefault();
-    const login = async () => {
-      try {
-        const config = {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        };
-        const response = await axios.post(
-          'http://localhost:8080/user/login',
-          {
-            email,
-            password,
-          },
-          config
-        );
-        console.log(response);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    login();
+    dispatch(login(email, password));
   };
 
   return (

@@ -8,77 +8,49 @@ import {
   Text,
   VStack,
 } from '@chakra-ui/react';
-import React from 'react';
+import axios from 'axios';
+import React, { useState } from 'react';
 import { FiPaperclip, FiSend } from 'react-icons/fi';
 import { VscSmiley } from 'react-icons/vsc';
+import { useDispatch } from 'react-redux';
+import { sendMsg } from '../../actions/chatActions';
+import { sanitizeImage } from './aux';
 import ChatBubble from './ChatBubble';
+import { ChatType, UserData } from './types';
 
-const messages = [
-  {
-    message: 'Hey Travis! Would you like to go out for a coffee?',
-    from: 'others',
-    dateSent: '20:21',
-  },
-  {
-    message: 'Sure! At 11:00 am?',
-    from: 'me',
-    dateSent: '20:22',
-  },
-  {
-    message: "That's too early! How about at noon?",
-    from: 'others',
-    dateSent: '20:22',
-  },
-  {
-    message: 'That sounds good as well. Where should we meet?',
-    from: 'me',
-    dateSent: '20:23',
-  },
-  {
-    message: 'Meet me at the hardware store on 21 Duck Street.',
-    from: 'others',
-    dateSent: '20:23',
-  },
-  {
-    message: "Sounds good. I'll bring my friend with me as well!",
-    from: 'me',
-    dateSent: '20:24',
-  },
-  {
-    message: 'Which one? The developer or the designer?',
-    from: 'others',
-    dateSent: '20:24',
-  },
-  {
-    message: 'The developer. You remember Tony, right?',
-    from: 'me',
-    dateSent: '20:24',
-  },
-  {
-    message: "Yeah! Tony's a great guy!",
-    from: 'others',
-    dateSent: '20:25',
-  },
-  {
-    message: 'Indeed he is! Alright, see you later 👋!',
-    from: 'me',
-    dateSent: '20:25',
-  },
-];
+type Props = {
+  chat: ChatType;
+};
 
-const Chat = () => {
+const Chat = ({ chat }: Props) => {
+  const [message, setMessage] = useState('');
+  const dispatch = useDispatch();
+
+  const sendMessage = () => {
+    dispatch(sendMsg(message, chat?.chatId));
+    setMessage('');
+  };
+
   return (
     <Flex direction='column' h='full'>
       <HStack w='full' bg='#e8e8e8' justify='space-between' px={8}>
         <HStack py={4} spacing={5}>
-          <Avatar size='lg' />
+          <Avatar
+            size='lg'
+            src={
+              chat.image
+                ? `http://localhost:8080/${sanitizeImage(chat.image)}`
+                : ''
+            }
+          />
+
           <Text
             color='#083045'
             fontSize='xl'
             fontWeight='bold'
             fontStyle='italic'
           >
-            Mariaina Lopez
+            {chat?.name}
           </Text>
         </HStack>
         <IconButton
@@ -96,14 +68,16 @@ const Chat = () => {
             color='white'
             fontSize='md'
           >
-            02/12/22
+            {chat && chat?.messages?.length != 0
+              ? chat?.messages[chat?.messages.length - 1].timeDate.slice(0, 10)
+              : ''}
           </Text>
         </Badge>
-        {messages.map(({ message, from, dateSent }, index) => (
+        {chat?.messages.map(({ message, timeDate }, index) => (
           <ChatBubble
             message={message}
-            from={from}
-            dateSent={dateSent}
+            from={index % 2 == 0 ? 'me' : 'others'}
+            dateSent={timeDate.slice(0, 10)}
             key={index}
           />
         ))}
@@ -120,12 +94,15 @@ const Chat = () => {
           bg='#e8e8e8'
           placeholder='Escribe tu mensaje'
           boxShadow='5px 5px 10px gray'
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
         />
         <IconButton
           icon={<FiSend />}
           aria-label='send'
           variant='unstyled'
           fontSize='3xl'
+          onClick={sendMessage}
         />
       </HStack>
     </Flex>
