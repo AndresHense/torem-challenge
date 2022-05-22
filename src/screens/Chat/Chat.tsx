@@ -96,6 +96,7 @@ const Chat = ({ chat }: Props) => {
           boxShadow='5px 5px 10px gray'
           value={message}
           onChange={(e) => setMessage(e.target.value)}
+          isDisabled={chat?.chatId === undefined}
         />
         <IconButton
           icon={<FiSend />}
@@ -103,6 +104,7 @@ const Chat = ({ chat }: Props) => {
           variant='unstyled'
           fontSize='3xl'
           onClick={sendMessage}
+          isDisabled={chat?.chatId === undefined}
         />
       </HStack>
     </Flex>

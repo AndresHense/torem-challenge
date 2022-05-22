@@ -16,6 +16,7 @@ import Hero from '../components/Hero';
 import { Link as ReactLink, useNavigate } from 'react-router-dom';
 import { UserData } from './Chat/types';
 import { useDispatch, useSelector } from 'react-redux';
+import { register } from '../actions/userActions';
 
 const RegisterScreen = () => {
   const navigate = useNavigate();
@@ -49,8 +50,8 @@ const RegisterScreen = () => {
       return;
     }
     e.preventDefault();
-
     dispatch(register({ name, lastName, email, password, file }));
+    navigate('/login');
   };
 
   return (

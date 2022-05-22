@@ -26,7 +26,6 @@ const LoginScreen = () => {
   const { userId, loading, error } = userLogin;
 
   useEffect(() => {
-    console.log('userId', userId);
     if (userId) {
       navigate('/chat');
     }
