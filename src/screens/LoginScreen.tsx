@@ -17,6 +17,7 @@ import { login } from '../actions/userActions';
 import Hero from '../components/Hero';
 
 const LoginScreen = () => {
+  document.title = 'Login / Chatter';
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();

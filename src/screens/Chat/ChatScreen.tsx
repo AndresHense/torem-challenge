@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getUserDetails } from '../../actions/userActions';
 
 const ChatScreen = () => {
+  document.title = 'Inicio / Chatter';
   const dispatch = useDispatch();
 
   const userDetails = useSelector((state) => state.userDetails);

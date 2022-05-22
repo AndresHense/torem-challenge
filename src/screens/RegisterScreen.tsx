@@ -19,6 +19,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { register } from '../actions/userActions';
 
 const RegisterScreen = () => {
+  document.title = 'Registro / Chatter';
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
