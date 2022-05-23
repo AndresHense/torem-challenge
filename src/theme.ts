@@ -5,7 +5,7 @@ const theme = extendTheme({
     h2: {
       fontFamily: 'helvetica',
       color: 'white',
-      fontSize: '3xl',
+      fontSize: { base: 'xl', lg: '3xl' },
       fontWeight: 'bold',
       letterSpacing: '3px',
     },
@@ -17,7 +17,7 @@ const theme = extendTheme({
     h4: {
       fontFamily: 'helvetica',
       color: 'white',
-      fontSize: 'md',
+      fontSize: { base: 'sm', md: 'md', xl: 'lg' },
     },
   },
 });

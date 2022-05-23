@@ -6,6 +6,7 @@ import {
   IconButton,
   Input,
   Text,
+  useDisclosure,
   VStack,
 } from '@chakra-ui/react';
 import axios from 'axios';
@@ -14,37 +15,62 @@ import { useEffect } from 'react';
 import { FiPaperclip, FiSend } from 'react-icons/fi';
 import { VscSmiley } from 'react-icons/vsc';
 import { useDispatch, useSelector } from 'react-redux';
-import { sendMsg } from '../../actions/chatActions';
+import { io } from 'socket.io-client';
+import { getChatDetails, sendMsg } from '../../actions/chatActions';
+import { getUserDetails } from '../../actions/userActions';
 import { sanitizeImage } from './aux';
 import ChatBubble from './ChatBubble';
+import ChatSidebarDrawer from './ChatSidebarDrawer';
 import { ChatType, UserData } from './types';
+import { AiOutlineLeft } from 'react-icons/ai';
 
 type Props = {
   chat: ChatType;
 };
 
-const Chat = () => {
+const Chat = ({ userId }) => {
   const [message, setMessage] = useState('');
   const dispatch = useDispatch();
+  const { onOpen, isOpen, onClose } = useDisclosure();
 
   const chatSelect = useSelector((state) => state.chatSelect);
-  const { chat, loading, error } = chatSelect;
+  const { chatId: selectedChatId, loading, error } = chatSelect;
 
+  const chatDetails = useSelector((state) => state.chatDetails);
+  const { chat, loading: chatLoading } = chatDetails;
   const sendMessage = () => {
     dispatch(sendMsg(message, chat?.chatId));
     setMessage('');
   };
 
-  if (loading) return <Text>loading</Text>;
+  useEffect(() => {
+    if (selectedChatId) {
+      dispatch(getChatDetails(selectedChatId));
+    }
+  }, [dispatch, selectedChatId]);
+
   return (
     <Flex direction='column' h='full'>
-      <HStack w='full' bg='#e8e8e8' justify='space-between' px={8}>
-        <HStack py={4} spacing={5}>
+      <HStack
+        w='full'
+        bg='#e8e8e8'
+        justify='space-between'
+        px={{ base: 3, lg: 8 }}
+      >
+        <HStack py={{ base: 2, lg: 4 }} spacing={{ base: 2, lg: 5 }}>
+          <IconButton
+            icon={<AiOutlineLeft />}
+            display={{ base: 'inherit', lg: 'none' }}
+            aria-label='to-sidebar'
+            variant='outline'
+            onClick={onOpen}
+          />
           <Avatar
-            size='lg'
+            w={{ base: 12, lg: 16 }}
+            h={{ base: 12, lg: 16 }}
             src={
-              chat.image
-                ? `http://localhost:8080/${sanitizeImage(chat.image)}`
+              !chatLoading && chat?.image
+                ? `http://localhost:8080/${sanitizeImage(chat?.image)}`
                 : ''
             }
           />
@@ -112,6 +138,7 @@ const Chat = () => {
           isDisabled={chat?.chatId === undefined}
         />
       </HStack>
+      <ChatSidebarDrawer userId={userId} isOpen={isOpen} onClose={onClose} />
     </Flex>
   );
 };

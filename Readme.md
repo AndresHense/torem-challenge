@@ -20,5 +20,5 @@ No se pueden crear chats nuevos desde el frontend, usar una herramienta como pos
 * ~~*add delete chat button*~~
 * ~~*add chat selection funtionality*~~
 * *add svg to footer*
-* *add mobile version*
+* ~~*add mobile version*~~
 * ~~*refactorize and rename functions in chatBox.tsx*~~

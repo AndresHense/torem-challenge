@@ -24,7 +24,11 @@ import React, { useRef, useState } from 'react';
 import { BsCheck2All } from 'react-icons/bs';
 import { HiDotsVertical } from 'react-icons/hi';
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteMsg, selectMsg } from '../../actions/chatActions';
+import {
+  deleteMsg,
+  getChatDetails,
+  selectMsg,
+} from '../../actions/chatActions';
 import { sanitizeImage } from './aux';
 import { BiTrash } from 'react-icons/bi';
 import { useEffect } from 'react';
@@ -55,10 +59,10 @@ const ChatBox = ({ name, image, lastMessage, chatId }: Props) => {
   };
 
   const chatSelect = useSelector((state) => state.chatSelect);
-  const { chat, loading, error } = chatSelect;
+  const { chatId: selectedChatId, loading: loadingSelect } = chatSelect;
 
   useEffect(() => {
-    if (chatId === chat.chatId) {
+    if (chatId === selectedChatId) {
       setTextColor('white');
       setChatBgColor('green.500');
       setBxShadow('0px 3px 5px gray');
@@ -67,11 +71,12 @@ const ChatBox = ({ name, image, lastMessage, chatId }: Props) => {
       setChatBgColor('#e8e8e8');
       setBxShadow('');
     }
-  }, [chat]);
+  }, [chatId, dispatch, selectedChatId]);
   return (
     <HStack
       justify='space-between'
-      px={6}
+      pl={{ base: 3, lg: 6 }}
+      pr={{ base: 4, lg: 6 }}
       w='100%'
       h='100%'
       bg={chatBgColor}
@@ -102,7 +107,7 @@ const ChatBox = ({ name, image, lastMessage, chatId }: Props) => {
                 overflow='hidden'
                 textOverflow='ellipsis'
                 whiteSpace='nowrap'
-                w='330px'
+                w={{ base: '140px', lg: '330px' }}
               >
                 {lastMessage}
               </Text>
@@ -110,7 +115,7 @@ const ChatBox = ({ name, image, lastMessage, chatId }: Props) => {
           </VStack>
         </HStack>
       </Button>
-      <Menu placement='right' px={0}>
+      <Menu placement='left'>
         <MenuButton
           as={IconButton}
           icon={<HiDotsVertical />}
@@ -119,13 +124,11 @@ const ChatBox = ({ name, image, lastMessage, chatId }: Props) => {
           display={showDots ? 'block' : 'none'}
           _focus={{ border: 'none' }}
         />
-        <Portal>
-          <MenuList bg='gray.100' mx={-2} display={showDots ? 'block' : 'none'}>
-            <MenuItem icon={<BiTrash color='red' />} onClick={onOpen}>
-              Borrar
-            </MenuItem>
-          </MenuList>
-        </Portal>
+        <MenuList bg='gray.100' display={showDots ? 'block' : 'none'}>
+          <MenuItem icon={<BiTrash color='red' />} onClick={onOpen}>
+            Borrar
+          </MenuItem>
+        </MenuList>
       </Menu>
 
       <AlertDialog

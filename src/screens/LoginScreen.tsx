@@ -6,6 +6,7 @@ import {
   HStack,
   Input,
   Link,
+  Stack,
   Text,
   VStack,
 } from '@chakra-ui/react';
@@ -44,17 +45,21 @@ const LoginScreen = () => {
       flex='1'
     >
       <Hero />
-      <GridItem bg='green.500' display='flex'>
+      <GridItem bg='green.500' display='flex' alignItems='center' py={32}>
         <form onSubmit={submitHandler}>
-          <VStack alignItems='start' px={32} w='100%' spacing={10} pt={48}>
+          <VStack
+            alignItems='start'
+            px={{ base: 8, md: 24, lg: 38, xl: 32 }}
+            w='100%'
+            spacing={{ base: 12, xl: 10 }}
+          >
             <Box w='100%'>
               <Text textStyle='h2'>E-MAIL</Text>
               <Input
                 placeholder='Ingresa tu correo electronico'
-                color='white'
                 _placeholder={{ color: 'white' }}
                 variant='flushed'
-                fontSize='lg'
+                textStyle='h3'
                 value={email}
                 type='email'
                 onChange={(e) => setEmail(e.target.value)}
@@ -66,8 +71,7 @@ const LoginScreen = () => {
                 placeholder='Ingresa tu contraseña'
                 variant='flushed'
                 _placeholder={{ color: 'white' }}
-                color='white'
-                fontSize='lg'
+                textStyle='h3'
                 value={password}
                 type='password'
                 onChange={(e) => setPassword(e.target.value)}
@@ -85,19 +89,22 @@ const LoginScreen = () => {
             >
               Ingresar
             </Button>
-            <HStack>
-              <Text textStyle='h3'>¿No tienes una cuenta?</Text>
-              <Link
-                as={ReactLink}
-                to='/register'
-                color='white'
-                fontSize='lg'
-                _hover={{ color: 'black' }}
-                fontStyle='italic'
-              >
-                Crea una nueva cuenta aqui
-              </Link>
-            </HStack>
+            <Stack direction={{ base: 'column', xl: 'row' }}>
+              <Text textStyle='h3'>
+                ¿No tienes una cuenta?
+                <Link
+                  as={ReactLink}
+                  to='/register'
+                  color='white'
+                  fontSize='lg'
+                  _hover={{ color: 'black' }}
+                  fontStyle='italic'
+                >
+                  {' '}
+                  Crea una nueva cuenta aqui
+                </Link>
+              </Text>
+            </Stack>
           </VStack>
         </form>
       </GridItem>

@@ -2,10 +2,12 @@ import { configureStore } from '@reduxjs/toolkit';
 import { getUserInfo, getToken } from './localStorage/storage';
 import {
   chatDeleteReducer,
+  chatDetailsReducer,
   chatSelectReducer,
   chatSendReducer,
 } from './reducers/chatReducers';
 import {
+  userDeleteReducer,
   userDetailsReducer,
   userLoginReducer,
   userLogoutReducer,
@@ -21,9 +23,11 @@ export default configureStore({
     userLogout: userLogoutReducer,
     userRegister: userRegisterReducer,
     userDetails: userDetailsReducer,
+    userDelete: userDeleteReducer,
     chatSend: chatSendReducer,
     chatSelect: chatSelectReducer,
     chatDelete: chatDeleteReducer,
+    chatDetails: chatDetailsReducer,
   },
   preloadedState: {
     userLogin: {
@@ -34,8 +38,10 @@ export default configureStore({
       user: {},
       loading: true,
     },
-    chatSelect: {
-      chat: { messages: [] },
+    chatSelect: {},
+    chatDetails: {
+      loading: true,
+      chats: [{ messages: [] }],
     },
   },
 });

@@ -7,6 +7,7 @@ import {
   HStack,
   Input,
   Link,
+  Stack,
   Text,
   VStack,
 } from '@chakra-ui/react';
@@ -68,9 +69,9 @@ const RegisterScreen = () => {
             justifyContent='center'
             pt={12}
             alignItems='start'
-            px={32}
+            px={{ base: 8, md: 24, lg: 38, xl: 32 }}
             w='100%'
-            spacing={10}
+            spacing={{ base: 6, lg: 10 }}
           >
             <Box w='100%'>
               <Text textStyle='h2'>NOMBRE</Text>
@@ -148,42 +149,56 @@ const RegisterScreen = () => {
             </Box>
             <HStack>
               <Checkbox mb={1} onChange={(e) => setAccept(e.target.checked)} />
-              <Text textStyle='h3'>Acepto todas las declaraciones de las</Text>
-              <Text
-                as='button'
-                textStyle='h3'
-                _hover={{ color: 'black' }}
-                fontStyle='italic'
-              >
-                condiciones de usuario
+              <Text textStyle='h3'>
+                Acepto todas las declaraciones de las
+                <Text
+                  as='a'
+                  textStyle='h3'
+                  _hover={{ color: 'black' }}
+                  fontStyle='italic'
+                >
+                  {' '}
+                  condiciones de usuario
+                </Text>
               </Text>
             </HStack>
 
-            <HStack justify='start'>
+            <Stack
+              justify='start'
+              pb={{ base: 4 }}
+              spacing={4}
+              direction={{ base: 'column', lg: 'row' }}
+              align='center'
+            >
               <Button
                 borderRadius={999}
                 bg='#083045'
                 _hover={{ bg: '#e8e8e8', color: 'black' }}
                 color='white'
-                size='lg'
+                size={{ base: 'md', lg: 'lg' }}
                 w='170px'
+                h={{ base: 10, lg: 12 }}
                 type='submit'
                 onClick={submitHandler}
               >
                 Registrarse
               </Button>
-              <Text textStyle='h3'>¿Ya tienes una cuenta?</Text>
-              <Link
-                as={ReactLink}
-                to='/login'
-                color='white'
-                fontSize='lg'
-                _hover={{ color: 'black' }}
-                fontStyle='italic'
-              >
-                Inicia sesion aqui
-              </Link>
-            </HStack>
+              <Stack direction={{ base: 'column', sm: 'row' }}>
+                <Text textStyle='h3'>
+                  ¿Ya tienes una cuenta?{' '}
+                  <Link
+                    as={ReactLink}
+                    to='/login'
+                    color='white'
+                    fontSize='lg'
+                    _hover={{ color: 'black' }}
+                    fontStyle='italic'
+                  >
+                    Inicia sesion aqui
+                  </Link>
+                </Text>
+              </Stack>
+            </Stack>
           </VStack>
         </form>
       </GridItem>

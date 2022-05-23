@@ -9,11 +9,14 @@ const Hero = () => {
       justifyContent='center'
       bgImage='BACKGROUND.jpg'
       bgPosition='center'
-      bgSize='200%'
+      bgSize={{ base: '300%', xl: '200%' }}
       filter='opacity(0.9) grayscale(80%) '
-      h={{ base: '100vh', lg: 'inherit' }}
+      h={{ base: '60vh', sm: '100vh', lg: 'inherit' }}
     >
-      <Image src='CHATTER_WHITE_TR.png' w='60%' />
+      <Image
+        src='CHATTER_WHITE_TR.png'
+        w={{ base: '90%', sm: '80%', md: '75%', xl: '60%' }}
+      />
     </GridItem>
   );
 };

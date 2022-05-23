@@ -25,38 +25,57 @@ import { GoSearch } from 'react-icons/go';
 import axios from 'axios';
 import { ChatType } from './types';
 import { FocusableElement } from '@chakra-ui/utils';
-import { useDispatch } from 'react-redux';
-import { deleteUserById } from '../../actions/userActions';
+import { useDispatch, useSelector } from 'react-redux';
+import { deleteUserById, getUserDetails } from '../../actions/userActions';
+import { sanitizeImage } from './aux';
 
 type Props = {
-  userImage: string;
-  chats: ChatType[];
   userId: string;
 };
 
-const ChatSidebar = ({ userImage, chats, userId }: Props) => {
+const ChatSidebar = ({ userId }: Props) => {
+  const dispatch = useDispatch();
+  const userDetails = useSelector((state) => state.userDetails);
+  const { user, loading, error } = userDetails;
+
+  const { image: userImage, chats } = user;
+  const userDelete = useSelector((state) => state.userDelete);
+  const { loading: loadingDelete, success } = userDelete;
+
+  useEffect(() => {
+    if (userId) {
+      dispatch(getUserDetails(userId));
+    }
+  }, [success]);
+
   const { isOpen, onOpen, onClose } = useDisclosure();
   const cancelRef = useRef<HTMLButtonElement | FocusableElement>();
-  const dispatch = useDispatch();
+
   const deleteUser = () => {
     onClose();
     dispatch(deleteUserById(userId));
   };
 
   return (
-    <Flex
-      as='aside'
-      bg='#e8e8e8'
-      h='full'
-      maxW='lg'
-      w='full'
-      direction='column'
-    >
-      <Box bg='green.500' py={4} px={8}>
+    <>
+      <Box
+        bg='green.500'
+        py={{ base: 2, lg: 4 }}
+        mt={{ base: 0, lg: 'inherit' }}
+        px={8}
+      >
         <Tooltip label='Borrar cuenta'>
           <IconButton
             icon={
-              <Avatar size='lg' src={`http://localhost:8080/${userImage}`} />
+              <Avatar
+                w={{ base: 12, lg: 16 }}
+                h={{ base: 12, lg: 16 }}
+                src={
+                  loading
+                    ? ''
+                    : `http://localhost:8080/${sanitizeImage(userImage)}`
+                }
+              />
             }
             variant='unstyled'
             _focus={{ border: 'none' }}
@@ -80,20 +99,21 @@ const ChatSidebar = ({ userImage, chats, userId }: Props) => {
       </Box>
       <Box alignItems='flex-start' py={4} w='full' overflowY='auto'>
         <List w='full' spacing={2}>
-          {chats.map(({ name, image, messages, chatId }, index) => (
-            <ListItem key={index}>
-              <ChatBox
-                name={name}
-                image={image}
-                chatId={chatId}
-                lastMessage={
-                  messages.length > 0
-                    ? messages[messages.length - 1]?.message
-                    : ''
-                }
-              />
-            </ListItem>
-          ))}
+          {!loading &&
+            chats.map(({ name, image, messages, chatId }, index) => (
+              <ListItem key={index}>
+                <ChatBox
+                  name={name}
+                  image={image}
+                  chatId={chatId}
+                  lastMessage={
+                    messages.length > 0
+                      ? messages[messages.length - 1]?.message
+                      : ''
+                  }
+                />
+              </ListItem>
+            ))}
         </List>
       </Box>
       <AlertDialog
@@ -122,7 +142,7 @@ const ChatSidebar = ({ userImage, chats, userId }: Props) => {
           </AlertDialogContent>
         </AlertDialogOverlay>
       </AlertDialog>
-    </Flex>
+    </>
   );
 };
 

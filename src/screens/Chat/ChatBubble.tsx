@@ -18,7 +18,7 @@ const ChatBubble = ({ message, dateSent, from }: Props) => {
         bg={isMe ? 'green.200' : 'white'}
         px={6}
         py={4}
-        maxW={96}
+        maxW={{ base: 80, lg: 96 }}
         borderTopRadius={32}
         borderBottomLeftRadius={bottomLeftRadius}
         borderBottomRightRadius={bottomRightRadius}
