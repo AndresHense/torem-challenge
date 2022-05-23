@@ -18,6 +18,7 @@ import { Link as ReactLink, useNavigate } from 'react-router-dom';
 import { UserData } from './Chat/types';
 import { useDispatch, useSelector } from 'react-redux';
 import { register } from '../actions/userActions';
+import './register.css';
 
 const RegisterScreen = () => {
   document.title = 'Registro / Chatter';
@@ -124,12 +125,15 @@ const RegisterScreen = () => {
             </Box>
             <Box w='100%'>
               <Text textStyle='h2'>FOTO DE PERFIL</Text>
-              <input
-                type='file'
-                onChange={(e) => {
-                  setFile(e.target.files[0]);
-                }}
-              />
+              <label className='custom-file'>
+                <input
+                  type='file'
+                  onChange={(e) => {
+                    setFile(e.target.files[0]);
+                  }}
+                />
+                Selecciona Archivo
+              </label>
             </Box>
             <Box w='100%'>
               <Text textStyle='h2'>CONTRASEÑA</Text>

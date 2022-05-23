@@ -1,0 +1,13 @@
+input[type="file"] {
+    display: none;
+}
+.custom-file {
+    border: 2px solid white;
+    border-radius: 30px;
+    color:white;
+    font-size: large;
+    display: inline-block;
+    padding: 6px 24px;
+    cursor: pointer;
+    margin-top: 10px;
+}
