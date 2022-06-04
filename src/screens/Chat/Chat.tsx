@@ -23,10 +23,19 @@ import ChatBubble from './ChatBubble';
 import ChatSidebarDrawer from './ChatSidebarDrawer';
 import { ChatType, UserData } from './types';
 import { AiOutlineLeft } from 'react-icons/ai';
+import { gql } from '@apollo/client';
 
 type Props = {
   chat: ChatType;
 };
+
+const QUERY = gql`
+  query ($userId: ID!, $chatId: ID!, $filter: String!) {
+    filterMessages(userId: $userId, chatId: $chatId, filter: $filter) {
+      messageId
+    }
+  }
+`;
 
 const Chat = ({ userId }) => {
   const [message, setMessage] = useState('');

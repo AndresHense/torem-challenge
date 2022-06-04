@@ -16,6 +16,7 @@ import {
   InputLeftElement,
   List,
   ListItem,
+  Text,
   Tooltip,
   useDisclosure,
 } from '@chakra-ui/react';
@@ -28,10 +29,20 @@ import { FocusableElement } from '@chakra-ui/utils';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteUserById, getUserDetails } from '../../actions/userActions';
 import { sanitizeImage } from './aux';
+import { gql, useQuery } from '@apollo/client';
+import { AiOutlineConsoleSql } from 'react-icons/ai';
 
 type Props = {
   userId: string;
 };
+
+const QUERY = gql`
+  query ($userId: ID!, $chatId: ID!, $filter: String!) {
+    filterMessages(userId: $userId, chatId: $chatId, filter: $filter) {
+      messageId
+    }
+  }
+`;
 
 const ChatSidebar = ({ userId }: Props) => {
   const dispatch = useDispatch();
@@ -42,6 +53,41 @@ const ChatSidebar = ({ userId }: Props) => {
   const userDelete = useSelector((state) => state.userDelete);
   const { loading: loadingDelete, success } = userDelete;
 
+  const [filterMsg, setFilterMsg] = useState('');
+
+  const submitFilter = () => {
+    const filter = async () => {
+      try {
+        const config = {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${user.token}`,
+          },
+        };
+
+        const response = await axios({
+          method: 'post',
+          url: 'http://localhost:8080/graphql',
+          data: {
+            query: QUERY,
+            variables: {
+              userId,
+              chatId: '1jjl4527l3hgnkp9',
+              filter: filterMsg,
+            },
+          },
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxampsNDc3YWwzZ2R4eGJvIiwiaWF0IjoxNjUzMzIxMjM0LCJleHAiOjE2NTMzMjQ4MzR9.qzXIJhgBdZShsqXkOGuIJEbB1DM5PkBnMaNj24JB2gk`,
+          },
+        });
+        console.log(response);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    filter();
+  };
   useEffect(() => {
     if (userId) {
       dispatch(getUserDetails(userId));
@@ -87,13 +133,26 @@ const ChatSidebar = ({ userId }: Props) => {
       </Box>
       <Box w='full' px={6}>
         <InputGroup my={4}>
-          <InputLeftElement children={<Icon as={GoSearch} />} />
+          <InputLeftElement
+            children={
+              <IconButton
+                icon={<GoSearch />}
+                aria-label='filter'
+                onClick={submitFilter}
+                variant='unstyled'
+                pl={3}
+                _focus={{ border: 'none' }}
+              />
+            }
+          />
           <Input
             bg='#e8e8e8'
             placeholder='Buscar en los chats'
             variant='filled'
             rounded='full'
             boxShadow='2px 2px 5px gray'
+            value={filterMsg}
+            onChange={(e) => setFilterMsg(e.target.value)}
           />
         </InputGroup>
       </Box>

@@ -53,7 +53,7 @@ const Header = () => {
       <HStack pr={{ base: 8, xl: 12 }} spacing={4} pt={3}>
         {!userId ? (
           <>
-            <HStack display={{ base: 'none', xl: 'inherit' }}>
+            <HStack spacing={3} display={{ base: 'none', xl: 'inherit' }}>
               <Text textStyle='h4'>Información de la empresa</Text>
               <Link
                 as={ReactLink}
